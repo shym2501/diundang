@@ -66,15 +66,15 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])->sidebarCollapsibleOnDesktop()
-            // ->topNavigation()
+            ])
+            ->sidebarCollapsibleOnDesktop()
             ->navigationGroups([
                 'Customer Data',
                 'Inv Settings',
             ])
             ->userMenuItems([
                 'logout' => MenuItem::make()->label('Log out')
-            ])
-            ->databaseNotifications();
+            ]);
+            // ->databaseNotifications();
     }
 }
