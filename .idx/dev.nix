@@ -8,6 +8,7 @@
   packages = [
     pkgs.php83
     pkgs.php83Packages.composer
+    pkgs.mysql80
     # pkgs.go
     # pkgs.python311
     # pkgs.python311Packages.pip
