@@ -6,8 +6,10 @@ use App\Filament\Clusters\Customers\Resources\CustomerResource\Pages;
 use App\Filament\Clusters\Customers\Resources\CustomerResource\RelationManagers;
 use App\Filament\Clusters\Customers;
 use App\Models\Customers\Customer;
+use App\Models\Customers\Order;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -15,7 +17,6 @@ use Filament\Forms;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Pages\SubNavigationPosition;
 
 class CustomerResource extends Resource
 {
@@ -77,6 +78,21 @@ class CustomerResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('Create Order')
+                    ->label('Create Order')
+                    ->icon('heroicon-o-plus')  // Menambahkan ikon (opsional)
+                    ->action(function ($record) {
+                        // Membuat order baru dengan customer_id dari $record
+                        Order::create([
+                            'customer_id' => $record->id,
+                            'theme_id' => 1,  // Ubah sesuai kebutuhan
+                            'status' => 'pending',  // Status default
+                            'total_price' => 0,  // Set harga default atau logika lainnya
+                            'payment_method' => 1,  // Ubah sesuai kebutuhan
+                        ]);
+                    })
+                    ->requiresConfirmation()  // Tambahkan konfirmasi sebelum menjalankan aksi
+                    ->color('success'),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
